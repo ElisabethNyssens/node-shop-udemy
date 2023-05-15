@@ -1,0 +1,55 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/product.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+
+            <main>
+                <% if (prods.length > 0) { %>
+                    <div class="grid">
+                        <% for (let product of prods) { %>
+                            <article class="card product-item">
+                                <header class="card__header">
+                                    <h1 class="product__title">
+                                        <%= product.title %>
+                                    </h1>
+                                </header>
+                                <div class="card__image">
+                                    <img src="/<%= product.imgUrl %>" alt="<%= product.title %>">
+                                </div>
+                                <div class="card__content">
+                                    <h2 class="product__price">$
+                                        <%= product.price %>
+                                    </h2>
+                                    <p class="product__description">
+                                        <%= product.description %>
+                                    </p>
+                                </div>
+                                <div class="card__actions">
+                                    <a href="/products/<%= product._id %>" class="btn">Details</a>
+                                    <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+                                </div>
+                            </article>
+                            <% } %>
+                    </div>
+                    <div class="pagination">
+                      <% if (hasPrevPage && prevPage !== 1) { %>
+                        <a href="?page=<%= currentPage - 1 %>">
+                          <span class="material-icons md-16">arrow_back_ios</span>
+                        </a><% } %>
+                      <% if (currentPage !== 1) { %><a href="?page=1">1</a><% } %>
+                      <% if (currentPage > 2) { %><span>...</span><% } %>
+                      <a  class="active" href="?page=<%= currentPage %>"><%= currentPage %></a>
+                      <% if (currentPage < lastPage - 1 ) { %><span>...</span><% } %>
+                      <% if (currentPage !== lastPage) { %><a href="?page=<%= lastPage %>"><%= lastPage %></a><% } %>
+                      <% if (hasNextPage && nextPage !== lastPage) { %>
+                        <a href="?page=<%= currentPage + 1 %>">
+                          <span class="material-icons md-16">arrow_forward_ios</span>
+                        </a><% } %>
+                    </div>
+                    <% } else { %>
+                      <h1>No Products Found!</h1>
+                    <% } %>
+            </main>
+            <%- include('../includes/end.ejs') %>
